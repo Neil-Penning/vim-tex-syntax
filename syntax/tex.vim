@@ -730,19 +730,12 @@ hi! NewProblem  ctermbg=021     ctermfg=black
 hi! Unfinished  ctermbg=013     ctermfg=black
 hi! Optional    ctermbg=123     ctermfg=black
 
+
 syntax region FinishedProblem 
 \   matchgroup=NewProblem 
-"\   nextgroup=UnfinishedProblem 
 \   start='\v\\begin\{newProblem\}(\{.*\})?' 
 \   end='\v\\end\{newProblem\}' 
-\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem
-
-syntax region UnfinishedProblem 
-\    matchgroup=Unfinished 
-\    start='\v\\begin\{newProblem\}\[UNFINISHED\](\{.*\})?' 
-\    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem
-
+\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem
 syntax region FinishedInlineProblem 
 \    matchgroup=NewProblem 
 "\    nextgroup=UnfinishedInlineProblem
@@ -751,6 +744,11 @@ syntax region FinishedInlineProblem
 \    contains=@TopSpell
 \    containedin=NewProblem
 
+syntax region UnfinishedProblem 
+\    matchgroup=Unfinished 
+\    start='\v\\begin\{newProblem\}\[UNFINISHED\](\{.*\})?' 
+\    end='\v\\end\{newProblem\}' 
+\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem
 syntax region UnfinishedInlineProblem 
 \    matchgroup=Unfinished 
 "\    nextgroup=FinishedInlineProblem 
@@ -758,3 +756,15 @@ syntax region UnfinishedInlineProblem
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
 
+
+syntax region NoteProblem 
+\    matchgroup=Note 
+\    start='\v\\begin\{newProblem\}\[NOTE\](\{.*\})?' 
+\    end='\v\\end\{newProblem\}' 
+\    contains=@TopSpell, FinishedInlineProblem, UnfinishedInlineProblem, NoteInlineProblem
+syntax region NoteInlineProblem 
+\    matchgroup=Note 
+"\    nextgroup=FinishedInlineProblem 
+\    start='\v\\begin\{newInlineProblem\}\[NOTE\](\{.*\})?' 
+\    end='\v\\end\{newInlineProblem\}' 
+\    contains=@TopSpell
