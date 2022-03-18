@@ -735,7 +735,7 @@ syntax region FinishedProblem
 \   matchgroup=Finished 
 \   start='\v\\begin\{newProblem\}(\{.*\})?' 
 \   end='\v\\end\{newProblem\}' 
-\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem
+\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
 syntax region FinishedInlineProblem 
 \    matchgroup=Finished 
 "\    nextgroup=UnfinishedInlineProblem
@@ -744,11 +744,22 @@ syntax region FinishedInlineProblem
 \    contains=@TopSpell
 \    containedin=Finished
 
+syntax region OptionalProblem
+\    matchgroup=Optional 
+\    start='\v\\begin\{newProblem\}\[OPTIONAL\](\{.*\})?' 
+\    end='\v\\end\{newProblem\}' 
+\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
+syntax region OptionalInlineProblem 
+\    matchgroup=Optional 
+\    start='\v\\begin\{newInlineProblem\}\[OPTIONAL\](\{.*\})?' 
+\    end='\v\\end\{newInlineProblem\}' 
+\    contains=@TopSpell
+ 
 syntax region UnfinishedProblem 
 \    matchgroup=Unfinished 
 \    start='\v\\begin\{newProblem\}\[UNFINISHED\](\{.*\})?' 
 \    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem
+\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
 syntax region UnfinishedInlineProblem 
 \    matchgroup=Unfinished 
 "\    nextgroup=FinishedInlineProblem 
@@ -757,12 +768,11 @@ syntax region UnfinishedInlineProblem
 \    contains=@TopSpell
 
 
-
 syntax region NoteProblem 
 \    matchgroup=Note 
 \    start='\v\\begin\{newProblem\}\[NOTE\](\{.*\})?' 
 \    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem, UnfinishedInlineProblem, NoteInlineProblem
+\    contains=@TopSpell, FinishedInlineProblem, UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
 syntax region NoteInlineProblem 
 \    matchgroup=Note 
 "\    nextgroup=FinishedInlineProblem 
@@ -772,4 +782,5 @@ syntax region NoteInlineProblem
 
 syntax match Finished "\\tcblower" containedin=FinishedProblem,FinishedInlineProblem
 syntax match Unfinished "\\tcblower" containedin=UnfinishedProblem,UnfinishedInlineProblem 
+syntax match Optional "\\tcblower" containedin=OptionalProblem,OptionalInlineProblem 
 syntax match Note "\\tcblower" containedin=NoteProblem,NoteInlineProblem 
