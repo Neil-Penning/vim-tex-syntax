@@ -725,3 +725,36 @@ let   b:current_syntax = "tex"
 let &cpo               = s:cpo_save
 
 unlet s:cpo_save s:math_env_names s:regexp s:fold_envs s:cmdlist
+
+hi! NewProblem  ctermbg=021     ctermfg=black
+hi! Unfinished  ctermbg=013     ctermfg=black
+hi! Optional    ctermbg=123     ctermfg=black
+
+syntax region FinishedProblem 
+\   matchgroup=NewProblem 
+"\   nextgroup=UnfinishedProblem 
+\   start='\v\\begin\{newProblem\}(\{.*\})?' 
+\   end='\v\\end\{newProblem\}' 
+\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem
+
+syntax region UnfinishedProblem 
+\    matchgroup=Unfinished 
+\    start='\v\\begin\{newProblem\}\[UNFINISHED\](\{.*\})?' 
+\    end='\v\\end\{newProblem\}' 
+\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem
+
+syntax region FinishedInlineProblem 
+\    matchgroup=NewProblem 
+"\    nextgroup=UnfinishedInlineProblem
+\    start='\v\\begin\{newInlineProblem\}(\{.*\})?' 
+\    end='\v\\end\{newInlineProblem\}' 
+\    contains=@TopSpell
+\    containedin=NewProblem
+
+syntax region UnfinishedInlineProblem 
+\    matchgroup=Unfinished 
+"\    nextgroup=FinishedInlineProblem 
+\    start='\v\\begin\{newInlineProblem\}\[UNFINISHED\](\{.*\})?' 
+\    end='\v\\end\{newInlineProblem\}' 
+\    contains=@TopSpell
+
