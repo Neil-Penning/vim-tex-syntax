@@ -726,23 +726,23 @@ let &cpo               = s:cpo_save
 
 unlet s:cpo_save s:math_env_names s:regexp s:fold_envs s:cmdlist
 
-hi! NewProblem  ctermbg=021     ctermfg=black
+hi! Finished    ctermbg=021     ctermfg=black
 hi! Unfinished  ctermbg=013     ctermfg=black
 hi! Optional    ctermbg=123     ctermfg=black
 
 
 syntax region FinishedProblem 
-\   matchgroup=NewProblem 
+\   matchgroup=Finished 
 \   start='\v\\begin\{newProblem\}(\{.*\})?' 
 \   end='\v\\end\{newProblem\}' 
 \   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem
 syntax region FinishedInlineProblem 
-\    matchgroup=NewProblem 
+\    matchgroup=Finished 
 "\    nextgroup=UnfinishedInlineProblem
 \    start='\v\\begin\{newInlineProblem\}(\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
-\    containedin=NewProblem
+\    containedin=Finished
 
 syntax region UnfinishedProblem 
 \    matchgroup=Unfinished 
@@ -757,6 +757,7 @@ syntax region UnfinishedInlineProblem
 \    contains=@TopSpell
 
 
+
 syntax region NoteProblem 
 \    matchgroup=Note 
 \    start='\v\\begin\{newProblem\}\[NOTE\](\{.*\})?' 
@@ -768,3 +769,7 @@ syntax region NoteInlineProblem
 \    start='\v\\begin\{newInlineProblem\}\[NOTE\](\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
+
+syntax match Finished "\\tcblower" containedin=FinishedProblem,FinishedInlineProblem
+syntax match Unfinished "\\tcblower" containedin=UnfinishedProblem,UnfinishedInlineProblem 
+syntax match Note "\\tcblower" containedin=NoteProblem,NoteInlineProblem 
