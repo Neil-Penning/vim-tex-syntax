@@ -1,7 +1,7 @@
 " Vim simple TeX syntax file
 " Maintainer:	GI <gi1242+vim@nospam.com> (replace nospam with gmail)
 " Created:	Tue 16 Dec 2014 03:45:10 PM IST
-" Last Changed:	Sat 03 Oct 2020 11:18:25 AM EDT
+" Last Changed:	Fri 17 Mar 2022 21:11 by Neil Penning
 " Version:	0.2
 "
 " Description:
@@ -816,7 +816,7 @@ syntax region FinishedInlineProblem
 \    matchgroup=Finished 
 \    start='\v\\begin\{newInlineProblem\}(\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
-\    contains=@TopSpell
+\    contains=@TopSpell,@InlineProblem
 
 syntax region OptionalProblem
 \    matchgroup=Optional 
@@ -827,7 +827,7 @@ syntax region OptionalInlineProblem
 \    matchgroup=Optional 
 \    start='\v\\begin\{newInlineProblem\}\[OPTIONAL\](\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
-\    contains=@TopSpell
+\    contains=@TopSpell,@InlineProblem
  
 syntax region UnfinishedProblem 
 \    matchgroup=Unfinished 
@@ -838,8 +838,7 @@ syntax region UnfinishedInlineProblem
 \    matchgroup=Unfinished 
 \    start='\v\\begin\{newInlineProblem\}\[UNFINISHED\](\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
-\    contains=@TopSpell
-
+\    contains=@TopSpell,@InlineProblem
 
 syntax region NoteProblem 
 \    matchgroup=Note
@@ -851,7 +850,7 @@ syntax region NoteInlineProblem
 "\    nextgroup=FinishedInlineProblem 
 \    start='\v\\begin\{newInlineProblem\}\[NOTE\](\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
-\    contains=@TopSpell
+\    contains=@TopSpell,@InlineProblem
 
 " tcblower for BoxItems
 syntax match Definition "\\tcblower" containedin=BoxDefinition 
