@@ -753,29 +753,76 @@ let &cpo               = s:cpo_save
 
 unlet s:cpo_save s:math_env_names s:regexp s:fold_envs s:cmdlist
 
+"   Name        ctermbg=xxx     ctermfg=black
 hi! Finished    ctermbg=021     ctermfg=black
 hi! Unfinished  ctermbg=013     ctermfg=black
 hi! Optional    ctermbg=123     ctermfg=black
+hi! Note        ctermbg=grey    ctermfg=black
+hi! Definition  ctermbg=green   ctermfg=black
+hi! Theorem     ctermbg=yellow  ctermfg=black
+hi! Example     ctermbg=097     ctermfg=black
+hi! Concept     ctermbg=blue    ctermfg=black
+hi! Problem     ctermbg=red     ctermfg=black
+hi! TODO        ctermbg=013     ctermfg=black
+hi! Quote       ctermbg=180     ctermfg=black
 
+syntax cluster Boxes contains=BoxDefinition,BoxTheorem,BoxExample,BoxConcept,BoxProblem,BoxTODO,BoxQuote
+syntax region BoxDefinition 
+\   matchgroup=Definition 
+\   start='\v\\begin\{boxDefinition\}(\{.*\})?' 
+\   end='\v\\end\{boxDefinition\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxTheorem 
+\   matchgroup=Theorem 
+\   start='\v\\begin\{boxTheorem\}(\{.*\})?' 
+\   end='\v\\end\{boxTheorem\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxExample 
+\   matchgroup=Example 
+\   start='\v\\begin\{boxExample\}(\{.*\})?' 
+\   end='\v\\end\{boxExample\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxConcept 
+\   matchgroup=Concept 
+\   start='\v\\begin\{boxConcept\}(\{.*\})?' 
+\   end='\v\\end\{boxConcept\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxProblem 
+\   matchgroup=Problem 
+\   start='\v\\begin\{boxProblem\}(\{.*\})?' 
+\   end='\v\\end\{boxProblem\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxTODO 
+\   matchgroup=TODO 
+\   start='\v\\begin\{boxTODO\}(\{.*\})?' 
+\   end='\v\\end\{boxTODO\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxQuote 
+\   matchgroup=Quote
+\   start='\v\\begin\{boxQuote\}(\{.*\})?' 
+\   end='\v\\end\{boxQuote\}' 
+\   contains=@TopSpell,@Boxes
+
+
+syntax cluster Problem contains=FinishedProblem,OptionalProblem,UnfinishedProblem,NoteProblem
+syntax cluster InlineProblem contains=FinishedInlineProblem,OptionalInlineProblem,UnfinishedInlineProblem,NoteInlineProblem
 
 syntax region FinishedProblem 
 \   matchgroup=Finished 
 \   start='\v\\begin\{newProblem\}(\{.*\})?' 
 \   end='\v\\end\{newProblem\}' 
-\   contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
+\   contains=@TopSpell,@InlineProblem
 syntax region FinishedInlineProblem 
 \    matchgroup=Finished 
-"\    nextgroup=UnfinishedInlineProblem
 \    start='\v\\begin\{newInlineProblem\}(\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
-\    containedin=Finished
 
 syntax region OptionalProblem
 \    matchgroup=Optional 
 \    start='\v\\begin\{newProblem\}\[OPTIONAL\](\{.*\})?' 
 \    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
+\    contains=@TopSpell,@InlineProblem
 syntax region OptionalInlineProblem 
 \    matchgroup=Optional 
 \    start='\v\\begin\{newInlineProblem\}\[OPTIONAL\](\{.*\})?' 
@@ -786,20 +833,19 @@ syntax region UnfinishedProblem
 \    matchgroup=Unfinished 
 \    start='\v\\begin\{newProblem\}\[UNFINISHED\](\{.*\})?' 
 \    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem , UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
+\    contains=@TopSpell,@InlineProblem
 syntax region UnfinishedInlineProblem 
 \    matchgroup=Unfinished 
-"\    nextgroup=FinishedInlineProblem 
 \    start='\v\\begin\{newInlineProblem\}\[UNFINISHED\](\{.*\})?' 
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
 
 
 syntax region NoteProblem 
-\    matchgroup=Note 
-\    start='\v\\begin\{newProblem\}\[NOTE\](\{.*\})?' 
+\    matchgroup=Note
+\    start='\v\\begin\{newProblem\}\[NOTE\](\{.*\})?'
 \    end='\v\\end\{newProblem\}' 
-\    contains=@TopSpell, FinishedInlineProblem, UnfinishedInlineProblem, NoteInlineProblem, OptionalInlineProblem
+\    contains=@TopSpell,@InlineProblem
 syntax region NoteInlineProblem 
 \    matchgroup=Note 
 "\    nextgroup=FinishedInlineProblem 
@@ -807,7 +853,19 @@ syntax region NoteInlineProblem
 \    end='\v\\end\{newInlineProblem\}' 
 \    contains=@TopSpell
 
+" tcblower for BoxItems
+syntax match Definition "\\tcblower" containedin=BoxDefinition 
+syntax match Theorem "\\tcblower" containedin=BoxTheorem 
+syntax match Example "\\tcblower" containedin=BoxExample 
+syntax match Concept "\\tcblower" containedin=BoxConcept 
+syntax match Problem "\\tcblower" containedin=BoxProblem 
+syntax match TODO "\\tcblower" containedin=BoxTODO
+syntax match Quote "\\tcblower" containedin=BoxQuote
+
+" Includes both Problem and Box
+syntax match Note "\\tcblower" containedin=NoteProblem,NoteInlineProblem,BoxNote
+
+"tcblower for problems
 syntax match Finished "\\tcblower" containedin=FinishedProblem,FinishedInlineProblem
 syntax match Unfinished "\\tcblower" containedin=UnfinishedProblem,UnfinishedInlineProblem 
 syntax match Optional "\\tcblower" containedin=OptionalProblem,OptionalInlineProblem 
-syntax match Note "\\tcblower" containedin=NoteProblem,NoteInlineProblem 
