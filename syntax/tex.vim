@@ -412,6 +412,7 @@ if has('conceal') && &encoding == 'utf-8'
 	\ 'neg':	'¬',
 	\ 'neq':	'≠',
 	\ 'ni':		'∋',
+	\ 'not\\in':	'∉',
 	\ 'notin':	'∉',
 	\ 'nwarrow':	'↖',
 	\ 'odot':	'⊙',
