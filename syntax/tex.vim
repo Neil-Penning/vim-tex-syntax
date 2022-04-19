@@ -774,7 +774,7 @@ hi! Problem     ctermbg=red     ctermfg=black
 hi! TODO        ctermbg=013     ctermfg=black
 hi! Quote       ctermbg=180     ctermfg=black
 
-syntax cluster Boxes contains=BoxDefinition,BoxTheorem,BoxExample,BoxConcept,BoxProblem,BoxTODO,BoxQuote
+syntax cluster Boxes contains=BoxDefinition,BoxTheorem,BoxExample,BoxConcept,BoxProblem,BoxTODO,BoxQuote,BoxNote
 syntax region BoxDefinition 
 \   matchgroup=Definition 
 \   start='\v\\begin\{boxDefinition\}(\{.*\})?' 
@@ -809,6 +809,11 @@ syntax region BoxQuote
 \   matchgroup=Quote
 \   start='\v\\begin\{boxQuote\}(\{.*\})?' 
 \   end='\v\\end\{boxQuote\}' 
+\   contains=@TopSpell,@Boxes
+syntax region BoxNote 
+\   matchgroup=Note
+\   start='\v\\begin\{boxNote\}(\{.*\})?' 
+\   end='\v\\end\{boxNote\}' 
 \   contains=@TopSpell,@Boxes
 
 
